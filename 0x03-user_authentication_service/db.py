@@ -33,7 +33,7 @@ class DB:
         a function that adds a new user to the database
         and returns a User object
         """
-        tmp: User = User(email=email, hashed_password=hashed_password)
+        tmp = User(email=email, hashed_password=hashed_password)
         self._session.add(tmp)
         self._session.flush()
         return tmp
