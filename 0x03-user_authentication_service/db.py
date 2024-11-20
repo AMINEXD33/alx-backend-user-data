@@ -34,9 +34,7 @@ class DB:
         """
         tmp: User = User(
             email=email,
-            hashed_password=hashed_password,
-            session_id="",
-            reset_token=""
+            hashed_password=hashed_password
         )
         self._session.add(tmp)
         self._session.flush()
