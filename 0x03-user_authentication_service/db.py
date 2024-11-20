@@ -52,7 +52,7 @@ class DB:
             "reset_token",
         ]
         # check keys
-        for key in kwargs:
+        for key in kwargs.keys():
             if key not in keys:
                 raise InvalidRequestError
         # try and kind the user with such keys
