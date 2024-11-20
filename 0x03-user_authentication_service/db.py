@@ -44,7 +44,7 @@ class DB:
         and returns the  User object, or raise an error if the kwargs
         are wrong or no User was found
         """
-        keys: list[str] = [
+        keys = [
             "id",
             "email",
             "hashed_password",
