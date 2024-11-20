@@ -18,5 +18,3 @@ class User(Base):
     hashed_password = Column(String(length=250))
     session_id = Column(String(length=250))
     reset_token = Column(String(length=250))
-for column in User.__table__.columns:
-    print("{}: {}".format(column, column.type))
