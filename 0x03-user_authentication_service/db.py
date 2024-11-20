@@ -56,7 +56,7 @@ class DB:
             if key not in keys:
                 raise InvalidRequestError
         # try and kind the user with such keys
-        potential_user = self.__session.query(User).filter_by(**kwargs).first()
+        potential_user: User|None = self._session.query(User).filter_by(**kwargs).first()
         if potential_user is None:
             raise NoResultFound
         return potential_user
