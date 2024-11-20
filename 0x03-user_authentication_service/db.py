@@ -37,41 +37,28 @@ class DB:
         self._session.add(tmp)
         self._session.flush()
         return tmp
-    
 
     def find_user_by(self, **kwargs) -> User:
-        """Returns first rrow found in users table
-        as filtered by methods input arguments
         """
-        user_keys = ['id', 'email', 'hashed_password', 'session_id',
-                     'reset_token']
+        a function that finds a user with some args
+        and returns the  User object, or raise an error if the kwargs
+        are wrong or no User was found
+        """
+        keys: list[str] = [
+            "id",
+            "email",
+            "hashed_password",
+            "session_id",
+            "reset_token",
+        ]
+        # check keys
         for key in kwargs.keys():
-            if key not in user_keys:
+            if key not in keys:
                 raise InvalidRequestError
-        result = self._session.query(User).filter_by(**kwargs).first()
-        if result is None:
+        # try and kind the user with such keys
+        potential_user: User | None = (
+            self._session.query(User).filter_by(**kwargs).first()
+        )
+        if potential_user is None:
             raise NoResultFound
-        return result
-
-    # def find_user_by(self, **kwargs) -> User:
-    #     """
-    #     a function that finds a user with some args
-    #     and returns the  User object, or raise an error if the kwargs
-    #     are wrong or no User was found
-    #     """
-    #     keys: list[str] = [
-    #         "id",
-    #         "email",
-    #         "hashed_password",
-    #         "session_id",
-    #         "reset_token",
-    #     ]
-    #     # check keys
-    #     for key in kwargs.keys():
-    #         if key not in keys:
-    #             raise InvalidRequestError
-    #     # try and kind the user with such keys
-    #     potential_user: User|None = self._session.query(User).filter_by(**kwargs).first()
-    #     if potential_user is None:
-    #         raise NoResultFound
-    #     return potential_user
+        return potential_user
