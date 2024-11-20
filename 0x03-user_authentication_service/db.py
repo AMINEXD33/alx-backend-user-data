@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-
+from sqlalchemy.orm.exc import InvalidRequestError, NoResultFound
 from user import Base, User
 
 
@@ -37,3 +37,28 @@ class DB:
         self._session.add(tmp)
         self._session.flush()
         return tmp
+
+    def find_user_by(self, **kwargs):
+        """
+        a function that finds a user with some args
+        and returns the  User object, or raise an error if the kwargs
+        are wrong or no User was found
+        """
+        keys: list[str] = [
+            "id",
+            "email",
+            "hashed_password",
+            "session_id",
+            "reset_token",
+        ]
+        # check keys
+        for key in kwargs:
+            if key not in keys:
+                raise InvalidRequestError
+        # try and kind the user with such keys
+        potential_user: User | None = (
+            self.__session.query(User).filter_by(**kwargs).first()
+        )
+        if potential_user is None:
+            raise NoResultFound
+        return potential_user
