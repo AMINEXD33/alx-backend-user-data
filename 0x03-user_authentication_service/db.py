@@ -38,7 +38,7 @@ class DB:
         self._session.flush()
         return tmp
 
-    def find_user_by(self, **kwargs: dict) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """
         a function that finds a user with some args
         and returns the  User object, or raise an error if the kwargs
@@ -56,7 +56,7 @@ class DB:
             if key not in keys:
                 raise InvalidRequestError
         # try and kind the user with such keys
-        potential_user: User | None = (
+        potential_user: User = (
             self._session.query(User).filter_by(**kwargs).first()
         )
         if potential_user is None:
